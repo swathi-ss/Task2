@@ -39,11 +39,10 @@ class Enemy(pygame.sprite.Sprite):
       def draw(self, surface):
         surface.blit(self.image, self.rect)
  
- 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("Player.png")
+        self.image = pygame.image.load("images.png")
         self.rect = self.image.get_rect()
         self.rect.center = (160, 520)
  
