@@ -4,7 +4,7 @@ import random
  
 pygame.init()
  
-FPS = 60
+FPS = 40
 FramePerSec = pygame.time.Clock()
  
 # Predefined some colors
@@ -15,27 +15,30 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
  
 # Screen information
-SCREEN_WIDTH = 400
-SCREEN_HEIGHT = 400
+SCREEN_WIDTH = 350
+SCREEN_HEIGHT = 300
 
 #Adjusts size of screen and name
-DISPLAYSURF = pygame.display.set_mode((400,350))
+DISPLAYSURF = pygame.display.set_mode((350,190))
 DISPLAYSURF.fill(WHITE)
 pygame.display.set_caption("Game")
  
+# background = pygame.image.load("Lake Background")
  
 class Enemy(pygame.sprite.Sprite):
-      def __init__(self):
+      def __init__(self, right = 0):
         super().__init__()
-        self.image = pygame.image.load("Enemy.png")
+        self.image = pygame.image.load("pipes2.png")
         self.rect = self.image.get_rect()
-        self.rect.center=(random.randint(40,SCREEN_WIDTH-40),0) 
+        self.rect.right=SCREEN_WIDTH + 30 + right
+        # self.rect.top = 2
+        
  
       def move(self):
-        self.rect.move_ip(10,0) #Moves Enemy
-        if (self.rect.right > 400):
-            self.rect.left = 0
-            self.rect.center = (0,random.randint(30, 370))
+        self.rect.move_ip(-2,0) #Moves Enemy
+        if (self.rect.right < 0):
+            self.rect.right = SCREEN_WIDTH + 30
+            # self.rect.center = (0,random.randint(30, 350))
  
       def draw(self, surface):
         surface.blit(self.image, self.rect)
@@ -46,47 +49,65 @@ class Enemy(pygame.sprite.Sprite):
 # image = pygame.transform.scale(images.png, DEFAULT_IMAGE_SIZE)
 
  
-class Player(pygame.sprite.Sprite):
-    def __init__(self):
+class Background(pygame.sprite.Sprite):
+    def __init__(self, left):
         super().__init__()
-        self.image = pygame.image.load("Lake Background")
+        self.image = pygame.image.load("Sky")
         self.rect = self.image.get_rect()
-        self.rect.center = (160, 170) 
+        self.rect.left = left
+        self.rect.top = 1 
         # Moves bottom picture side to side and up and down
- 
-    def update(self):
-        pressed_keys = pygame.key.get_pressed()
-       #if pressed_keys[K_UP]:
-            #self.rect.move_ip(0, -5)
-       #if pressed_keys[K_DOWN]:
-            #self.rect.move_ip(0,5)
-         
-        if self.rect.left > 0:
-              if pressed_keys[K_LEFT]:
-                  self.rect.move_ip(-5, 0)
-        if self.rect.right < SCREEN_WIDTH:       
-              if pressed_keys[K_RIGHT]:
-                  self.rect.move_ip(5, 0)
+
+    def move(self):
+        self.rect.move_ip(-1,0) #Moves Background
+        if self.rect.left < -257:
+            self.rect.left = 257 * 2
+
  
     def draw(self, surface):
         surface.blit(self.image, self.rect)    
  
          
-P1 = Player()
+B1 = Background(0)
+B2 = Background(257)
+B3 = Background(258 * 2)
 E1 = Enemy()
+E2 = Enemy(random.randint(30, 350))
  
 while True:    
     for event in pygame.event.get():             
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-    P1.update()
+    B1.move()
+    B2.move()
+    B3.move()
     E1.move()
-     
+    E2.move() 
+
     DISPLAYSURF.fill(WHITE)
-    P1.draw(DISPLAYSURF)
+    B1.draw(DISPLAYSURF)
+    B2.draw(DISPLAYSURF)
+    B3.draw(DISPLAYSURF)
     E1.draw(DISPLAYSURF)
+    E2.draw(DISPLAYSURF)
          
     pygame.display.update()
     FramePerSec.tick(FPS)
     
+
+
+    # def update(self):
+    #     pressed_keys = pygame.key.get_pressed()
+    #    #if pressed_keys[K_UP]:
+    #         #self.rect.move_ip(0, -5)
+    #    #if pressed_keys[K_DOWN]:
+    #         #self.rect.move_ip(0,5)
+
+         
+    #     if self.rect.left > 0:
+    #           if pressed_keys[K_LEFT]:
+    #               self.rect.move_ip(-5, 0)
+    #     if self.rect.right < SCREEN_WIDTH:       
+    #           if pressed_keys[K_RIGHT]:
+    #               self.rect.move_ip(5, 0)
