@@ -19,9 +19,9 @@ SCREEN_WIDTH = 350
 SCREEN_HEIGHT = 300
 
 #Adjusts size of screen and name
-DISPLAYSURF = pygame.display.set_mode((350,190))
+DISPLAYSURF = pygame.display.set_mode((350,194))
 DISPLAYSURF.fill(WHITE)
-pygame.display.set_caption("Game")
+pygame.display.set_caption("Flappy Bird")
  
 # background = pygame.image.load("Lake Background")
  
@@ -35,7 +35,7 @@ class Enemy(pygame.sprite.Sprite):
         
  
       def move(self):
-        self.rect.move_ip(-2,0) #Moves Enemy
+        self.rect.move_ip(-2, 0) #Moves Enemy
         if (self.rect.right < 0):
             self.rect.right = SCREEN_WIDTH + 30
             # self.rect.center = (0,random.randint(30, 350))
@@ -55,7 +55,7 @@ class Background(pygame.sprite.Sprite):
         self.image = pygame.image.load("Sky")
         self.rect = self.image.get_rect()
         self.rect.left = left
-        self.rect.top = 1 
+        self.rect.top = 1
         # Moves bottom picture side to side and up and down
 
     def move(self):
@@ -72,7 +72,7 @@ B1 = Background(0)
 B2 = Background(257)
 B3 = Background(258 * 2)
 E1 = Enemy()
-E2 = Enemy(random.randint(30, 350))
+# E2 = Enemy(random.randint(30, 350))
  
 while True:    
     for event in pygame.event.get():             
@@ -83,14 +83,15 @@ while True:
     B2.move()
     B3.move()
     E1.move()
-    E2.move() 
+    # E2.move() 
 
     DISPLAYSURF.fill(WHITE)
     B1.draw(DISPLAYSURF)
     B2.draw(DISPLAYSURF)
     B3.draw(DISPLAYSURF)
     E1.draw(DISPLAYSURF)
-    E2.draw(DISPLAYSURF)
+
+# E2.draw(DISPLAYSURF)
          
     pygame.display.update()
     FramePerSec.tick(FPS)
